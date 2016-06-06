@@ -30,12 +30,22 @@ $config = [
                 ],*/
             ],
         ],
-        'assetManager' => [
-            'linkAssets' => false,
-            'appendTimestamp' => true,
-        ],
         'db' => require(__DIR__ . '/db.php'),
         'mailer' => require(__DIR__ . '/mail.php'),
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class'                 => 'yii\i18n\DbMessageSource',
+                    'sourceLanguage'        => 'en-US',
+                    'on missingTranslation' => ['app\components\TranslationEventHandler', 'handleMissingTranslation']
+                ],
+                'admin*' => [
+                    'class'                 => 'yii\i18n\DbMessageSource',
+                    'sourceLanguage'        => 'en-US',
+                    'on missingTranslation' => ['app\components\TranslationEventHandler', 'handleMissingTranslation']
+                ]
+            ],
+        ],
     ],
     'params' => $params,
 ];
