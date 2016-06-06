@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use app\themes\adminlte\widgets\Box;
+use mistim\theme\adminlte\widgets\Box;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Admin */

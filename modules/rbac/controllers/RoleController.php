@@ -3,7 +3,6 @@
 namespace app\modules\rbac\controllers;
 
 use Yii;
-use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\rbac\Item;
@@ -11,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use app\modules\rbac\models\AuthItemModel;
 use app\modules\rbac\models\search\AuthItemSearch;
-use app\controllers\BaseController;
+use app\modules\admin\controllers\BaseController;
 
 /**
  * Class RoleController

@@ -8,7 +8,7 @@ use yii\web\Response;
 use Yii;
 use app\modules\rbac\components\AccessHelper;
 use app\modules\rbac\models\RouteModel;
-use app\controllers\BaseController;
+use app\modules\admin\controllers\BaseController;
 
 
 /**

@@ -9,7 +9,7 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use app\modules\rbac\models\search\AssignmentSearch;
-use app\controllers\BaseController;
+use app\modules\admin\controllers\BaseController;
 
 /**
  * Class AssignmentController

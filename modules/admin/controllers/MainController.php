@@ -23,7 +23,7 @@ class MainController extends BaseController
     {
         if (!Yii::$app->user->isGuest)
         {
-            return $this->redirect('/admin');
+            return $this->redirect('index');
         }
 
         $model = new LoginForm();
@@ -47,7 +47,7 @@ class MainController extends BaseController
     {
         Yii::$app->user->logout();
 
-        return $this->redirect('/admin');
+        return $this->redirect('index');
     }
 
     /**

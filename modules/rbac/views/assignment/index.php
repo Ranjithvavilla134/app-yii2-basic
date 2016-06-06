@@ -2,8 +2,8 @@
 
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use app\themes\adminlte\widgets\Box;
-use app\themes\adminlte\widgets\grid\ActionColumn;
+use mistim\theme\adminlte\widgets\Box;
+use mistim\theme\adminlte\widgets\grid\ActionColumn;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\rbac\models\search\AssignmentSearch */

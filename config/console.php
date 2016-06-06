@@ -2,8 +2,32 @@
 
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests/codeception');
 
+if (getenv('HTTP_WS') === 'lab')
+{
+    $debug = true;
+    $environment = 'dev';
+    $db_conf = '/lab/db.php';
+    $mail_conf = '/lab/mail.php';
+    $baseUrl = 'SET_BASE_URL';
+}
+elseif (getenv('APP_ENV') === 'test')
+{
+    $debug = false;
+    $environment = 'test';
+    $db_conf = '/test/db.php';
+    $mail_conf = '/test/mail.php';
+    $baseUrl = 'SET_BASE_URL';
+}
+else
+{
+    $debug = false;
+    $environment = 'prod';
+    $db_conf = '/prod/db.php';
+    $mail_conf = '/prod/mail.php';
+    $baseUrl = 'SET_BASE_URL';
+}
+
 $params = require(__DIR__ . '/params.php');
-$db = require(__DIR__ . '/db.php');
 
 $config = [
     'id' => 'basic-console',
@@ -22,7 +46,26 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
+        'db' => require(__DIR__ . $db_conf),
+        'mailer' => require(__DIR__ . $mail_conf),
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName'  => false,
+            'baseUrl'         => '',
+            'hostInfo'        => $baseUrl,
+            'rules'           => [],
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\DbMessageSource',
+                    'sourceLanguage' => 'en-US',
+                    //'enableCaching' => true,
+                    //'cachingDuration' => 60,
+                    'on missingTranslation' => ['app\components\TranslationEventHandler', 'handleMissingTranslation']
+                ],
+            ],
+        ],
     ],
     'params' => $params,
     /*
@@ -33,13 +76,5 @@ $config = [
     ],
     */
 ];
-
-if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
-    ];
-}
 
 return $config;

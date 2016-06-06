@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use app\themes\adminlte\widgets\Box;
+use mistim\theme\adminlte\widgets\Box;
 
 /**
  * @var yii\web\View $this

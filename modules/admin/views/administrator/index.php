@@ -3,9 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\admin\models\Admin;
-use app\themes\adminlte\widgets\Box;
-use app\themes\adminlte\widgets\grid\ActionColumn;
-use app\themes\adminlte\widgets\DatePicker;
+use mistim\theme\adminlte\widgets\Box;
+use mistim\theme\adminlte\widgets\grid\ActionColumn;
+use mistim\theme\adminlte\widgets\DatePicker;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */

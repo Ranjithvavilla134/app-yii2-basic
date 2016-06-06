@@ -3,11 +3,10 @@
 namespace app\modules\rbac\controllers;
 
 use Yii;
-use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use app\modules\rbac\models\BizRuleModel;
 use app\modules\rbac\models\search\BizRuleSearch;
-use app\controllers\BaseController;
+use app\modules\admin\controllers\BaseController;
 
 /**
  * Class RuleController
