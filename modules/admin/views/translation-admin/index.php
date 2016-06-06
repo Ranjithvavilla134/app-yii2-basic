@@ -24,8 +24,9 @@ $gridConfig = [
 
         'sourceMessage.message',
         [
-            'attribute' => 'language',
-            'filter' => false
+            'attribute'     => 'language',
+            'filter'        => false,
+            'enableSorting' => false,
         ],
         'translation:ntext',
     ],

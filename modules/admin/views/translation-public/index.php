@@ -4,7 +4,8 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use mistim\theme\adminlte\widgets\Box;
 use mistim\theme\adminlte\widgets\grid\ActionColumn;
-use yii\widgets\Pjax;
+use app\models\Language;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\Search\MessageSearch */
@@ -15,43 +16,30 @@ Url::remember(Url::current());
 $this->title = Yii::t('admin', 'Translations');
 $this->params['breadcrumbs'][] = $this->title;
 
+$langs = Language::getAllActive();
+$columnLangs = [];
+
+foreach ($langs as $lang) {
+    $columnLangs[] = [
+        'attribute' => 'translation',
+        'label'     => Yii::t('admin', strtoupper($lang->varCode)),
+        'value'     => function ($data) use ($lang) {
+            foreach ($data->messages as $item) {
+                if ($item->language === $lang->varCode) return $item->translation;
+            }
+        }
+    ];
+}
+
 $gridId = 'translate-grid';
 $gridConfig = [
     'id' => $gridId,
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
-    'columns' => [
+    'columns' =>  ArrayHelper::merge([
         ['class' => 'yii\grid\SerialColumn'],
-
         'message',
-        [
-            'attribute' => 'translationEn',
-            'label'     => Yii::t('admin', 'EN'),
-            'value'     => function ($data) {
-                foreach ($data->messages as $item) {
-                    if ($item->language === 'en') return $item->translation;
-                }
-            }
-        ],
-        [
-            'attribute' => 'translationRu',
-            'label'     => Yii::t('admin', 'RU'),
-            'value'     => function ($data) {
-                foreach ($data->messages as $item) {
-                    if ($item->language === 'ru') return $item->translation;
-                }
-            }
-        ],
-        [
-            'attribute' => 'translationKz',
-            'label'     => Yii::t('admin', 'KZ'),
-            'value'     => function ($data) {
-                foreach ($data->messages as $item) {
-                    if ($item->language === 'kz') return $item->translation;
-                }
-            }
-        ],
-    ],
+    ], $columnLangs),
 ];
 
 $showActions = false;

@@ -2,6 +2,7 @@
 
 namespace app\models\search;
 
+use app\models\Language;
 use app\models\SourceMessage;
 use Yii;
 use yii\base\Model;
@@ -13,10 +14,6 @@ use yii\data\ActiveDataProvider;
  */
 class SourceMessageSearch extends SourceMessage
 {
-    public $translationEn;
-    public $translationRu;
-    public $translationKz;
-
     /**
      * @inheritdoc
      */
@@ -24,7 +21,7 @@ class SourceMessageSearch extends SourceMessage
     {
         return [
             [['id'], 'integer'],
-            [['message', 'category', 'translationEn', 'translationRu', 'translationKz'], 'safe']
+            [['message', 'category', 'translation'], 'safe']
         ];
     }
 
@@ -57,16 +54,6 @@ class SourceMessageSearch extends SourceMessage
             ],
         ]);
 
-        /*$dataProvider->sort->attributes['translationRu'] = [
-            'asc'  => ['messages.language' => SORT_ASC],
-            'desc' => ['messages.language' => SORT_DESC],
-        ];
-
-        $dataProvider->sort->attributes['translationKz'] = [
-            'asc'  => ['messages.language' => SORT_ASC],
-            'desc' => ['messages.language' => SORT_DESC],
-        ];*/
-
         $this->load($params);
 
         if (!$this->validate()) {
@@ -80,10 +67,13 @@ class SourceMessageSearch extends SourceMessage
             'category' => 'app'
         ]);
 
-        $query->andFilterWhere(['like', 'message', $this->message])
-            ->andFilterWhere(['like', 'translation', $this->translationEn])
-            ->andFilterWhere(['like', 'translation', $this->translationRu])
-            ->andFilterWhere(['like', 'translation', $this->translationKz]);
+        $query->andFilterWhere(['like', 'message', $this->message]);
+
+        $langs = Language::getAllActive();
+
+        foreach ($langs as $lang) {
+            $query->andFilterWhere(['like', 'translation', $this->translations[$lang->varCode]]);
+        }
 
         return $dataProvider;
     }

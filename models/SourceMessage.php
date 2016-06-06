@@ -15,9 +15,8 @@ use Yii;
  */
 class SourceMessage extends \yii\db\ActiveRecord
 {
-    public $translation_ru;
-    public $translation_en;
-    public $translation_kz;
+    public $translations = [];
+    public $translation;
 
     /**
      * @inheritdoc
@@ -34,7 +33,7 @@ class SourceMessage extends \yii\db\ActiveRecord
     {
         return [
             [['category'], 'required'],
-            [['message', 'translation_en', 'translation_ru', 'translation_kz'], 'string'],
+            [['message'], 'string'],
             [['category'], 'string', 'max' => 32]
         ];
     }
@@ -45,12 +44,10 @@ class SourceMessage extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'             => Yii::t('admin', 'ID'),
-            'category'       => Yii::t('admin', 'Category'),
-            'message'        => Yii::t('admin', 'Message'),
-            'translation_ru' => Yii::t('admin', 'RU'),
-            'translation_kz' => Yii::t('admin', 'KZ'),
-            'translation_en' => Yii::t('admin', 'EN'),
+            'id'          => Yii::t('admin', 'ID'),
+            'category'    => Yii::t('admin', 'Category'),
+            'message'     => Yii::t('admin', 'Key'),
+            'translation' => Yii::t('admin', 'Translation'),
         ];
     }
 
@@ -69,20 +66,22 @@ class SourceMessage extends \yii\db\ActiveRecord
     {
         foreach ($this->messages as $item)
         {
-            $this->{'translation_' . $item->language} = $item->translation;
+            $this->translations[$item->language] = $item->translation;
         }
     }
 
     /**
-     * @return bool
-     * @throws \Exception
+     * @return array
      */
     public function addTranslation()
     {
-        return Message::addTranslate($this->id, [
-            'ru' => $this->translation_ru,
-            'kz' => $this->translation_kz,
-            'en' => $this->translation_en
-        ]);
+        $langs = Language::getAllActive();
+        $data = [];
+
+        foreach ($langs as $lang) {
+            $data[$lang->varCode] = $this->translations[$lang->varCode];
+        }
+
+        return $data;
     }
 }

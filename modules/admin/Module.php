@@ -11,7 +11,7 @@ use yii\base\Theme;
 class Module extends \yii\base\Module
 {
     /** @var string $language */
-    public $language = 'ru';
+    public $language = 'en';
 
     /** @var string $defaultRoute */
     public $defaultRoute = 'main';
