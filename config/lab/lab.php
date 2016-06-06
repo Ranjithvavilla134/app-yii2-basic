@@ -55,13 +55,21 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        'allowedIPs' => ['192.168.33.1', '192.168.1.*']
+        'allowedIPs' => ['192.168.33.1', '192.168.1.*', '127.0.0.1']
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-        'allowedIPs' => ['192.168.33.1']
+        'allowedIPs' => ['192.168.33.1', '192.168.1.*', '127.0.0.1'],
+        'generators' => [
+            'crud' => [
+                'class'     => 'yii\gii\generators\crud\Generator',
+                'templates' => [
+                    'adminlte' => '@vendor/mistim/yii2-theme-adminlte/src/generators/crud/default'
+                ]
+            ]
+        ]
     ];
 }
 

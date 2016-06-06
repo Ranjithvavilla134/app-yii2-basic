@@ -107,8 +107,15 @@ echo Menu::widget(
                 'url' => '#',
                 'icon' => 'fa-language',
                 'option' => 'treeview',
-                'visible' => Yii::$app->user->can('/admin/translation-admin/index') || Yii::$app->user->can('/admin/translation-public/index') || Yii::$app->user->can('/admin/*'),
+                'visible' => Yii::$app->user->can('/admin/language/index') || Yii::$app->user->can('/admin/translation-admin/index')
+                    || Yii::$app->user->can('/admin/translation-public/index') || Yii::$app->user->can('/admin/*'),
                 'items' => [
+                    [
+                        'label' => Yii::t('admin', 'Languages'),
+                        'url' => ['/admin/language'],
+                        'active' => $controller->id === 'language',
+                        'visible' => Yii::$app->user->can('/admin/language/index') || Yii::$app->user->can('/admin/*'),
+                    ],
                     [
                         'label' => Yii::t('admin', 'Translation admin'),
                         'url' => ['/admin/translation-admin'],

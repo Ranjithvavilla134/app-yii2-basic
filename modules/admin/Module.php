@@ -2,6 +2,7 @@
 namespace app\modules\admin;
 
 use Yii;
+use yii\base\Theme;
 
 /**
  * Class Module
@@ -22,18 +23,13 @@ class Module extends \yii\base\Module
     public $loginUrl = '/admin/main/login';
 
     /** @var string $panelName */
-    public $panelName = 'CPanel';
+    public $panelName = 'Admin Panel';
 
     /** @var string $panelShortName */
-    public $panelShortName = 'CP';
+    public $panelShortName = 'AP';
 
     protected static $mainPageForRole = [
-        'Administrator'   => 'order',
-        'Auditor'         => 'order',
-        'Leader operator' => 'order',
-        'Operator'        => 'order',
-        'Marketer'        => 'product',
-        'Underwriter'     => 'osgpo',
+        'Administrator'  => 'main',
     ];
 
     /**
@@ -41,7 +37,6 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
-
         Yii::configure($this, require(__DIR__ . '/config/main.php'));
 
         Yii::$app->name = $this->panelName;
@@ -73,7 +68,7 @@ class Module extends \yii\base\Module
      */
     protected function configTheme()
     {
-        Yii::$app->view->theme = new \yii\base\Theme([
+        Yii::$app->view->theme = new Theme([
             'pathMap' => ['@app/views' => '@app/modules/admin/views'],
         ]);
 

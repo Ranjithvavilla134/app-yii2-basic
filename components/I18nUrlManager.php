@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\UrlManager;
+use yii\web\Cookie;
 
 /**
  * Class I18nUrlManager
@@ -153,7 +154,7 @@ class I18nUrlManager extends UrlManager
         {
             if ($language !== $request->cookies->get('lang'))
             {
-                Yii::$app->response->cookies->add(new \yii\web\Cookie([
+                Yii::$app->response->cookies->add(new Cookie([
                     'name' => 'lang',
                     'value' => $language,
                 ]));
@@ -167,7 +168,5 @@ class I18nUrlManager extends UrlManager
             //header('Location: /' . $currentLanguage);
             //exit;
         }
-
-        //throw new NotFoundHttpException('Page not found.');
     }
 }
