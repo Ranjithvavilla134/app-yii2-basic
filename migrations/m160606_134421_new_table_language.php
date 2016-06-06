@@ -6,7 +6,7 @@ class m160606_134421_new_table_language extends Migration
 {
     public function up()
     {
-        return $this->execute("
+        $this->execute("
             CREATE TABLE IF NOT EXISTS `language` (
                 `intLanguageID`  int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID' ,
                 `varCode`  char(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Code' ,
@@ -19,6 +19,14 @@ class m160606_134421_new_table_language extends Migration
             DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
             ROW_FORMAT=COMPACT;
         ");
+
+        $this->insert('admin', [
+            'intLanguageID' => 1,
+            'varCode'       => 'en',
+            'varName'       => 'English',
+            'isDefault'     => 1,
+            'isActive'      => 1,
+        ]);
     }
 
     public function down()

@@ -4,7 +4,7 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
-    'language' => 'ru',
+    'language' => 'en',
     'sourceLanguage' => 'en_GB',
     //'timeZone' => 'Europe/Kiev',
     'basePath' => dirname(__DIR__),
