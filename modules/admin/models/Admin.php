@@ -14,7 +14,6 @@ use Yii;
  * @property string $varEmail
  * @property string $varPassword
  * @property integer $intStatus
- * @property integer $intRoleID
  * @property string $dateCreated
  * @property string $dateLastEnter
  * @property string $varConfirmPassword
@@ -63,7 +62,7 @@ class Admin extends ActiveRecord
 			[['varName', 'varEmail'], 'unique'],
 			[['varName'], 'required'],
 			[['varEmail'], 'email', 'except' => 'login'],
-			[['intStatus', 'intRoleID'], 'integer'],
+			[['intStatus'], 'integer'],
 			//['intRoleID', 'in', 'range' => array_keys(Roles::$listRoles)],
 			[['dateCreated', 'dateLastEnter'], 'safe'],
 			[['varName'], 'string', 'max' => 32],
@@ -109,7 +108,6 @@ class Admin extends ActiveRecord
 			'varEmail'           => Yii::t('admin', 'Email'),
 			'varPassword'        => Yii::t('admin', 'Password'),
 			'intStatus'          => Yii::t('admin', 'Status'),
-			'intRoleID'          => Yii::t('admin', 'Role'),
 			'dateCreated'        => Yii::t('admin', 'Created Date'),
 			'dateLastEnter'      => Yii::t('admin', 'Last Enter Date'),
 			'varConfirmPassword' => Yii::t('admin', 'Confirm Password'),

@@ -23,7 +23,7 @@ class AdminSearch extends AdminAuth
     public function rules()
     {
         return [
-            [['intAdminID', 'intStatus', 'intRoleID'], 'integer'],
+            [['intAdminID'], 'integer'],
             [['varName', 'varEmail', 'varPassword', 'dateCreated', 'dateLastEnter', 'role'], 'safe'],
         ];
     }
@@ -70,7 +70,6 @@ class AdminSearch extends AdminAuth
         $query->andFilterWhere([
             'intAdminID' => $this->intAdminID,
             'intStatus'  => $this->intStatus,
-            'intRoleID'  => $this->intRoleID,
         ]);
 
         $query->andFilterWhere(['like', 'varName', $this->varName])

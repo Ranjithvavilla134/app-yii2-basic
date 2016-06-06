@@ -10,7 +10,7 @@ Once the extension is installed, simply modify your application configuration as
             //....
             'modules' => [
                 .....
-                'app' => [
+                'admin' => [
                     'class' => 'app\modules\admin\Module',
                     'modules' => [
                         'rbac' => [
@@ -19,7 +19,7 @@ Once the extension is installed, simply modify your application configuration as
                     ]
                 ],
             ],
-          'components' => [
+            'components' => [
                 ....
                 'authManager' => [
                     'class' => 'app\modules\rbac\components\DbManager',

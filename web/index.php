@@ -9,7 +9,7 @@ if (getenv('HTTP_WS') === 'lab')
 }
 elseif (getenv('APP_ENV') === 'test')
 {
-    $debug = false;
+    $debug = true;
     $environment = 'test';
     $config_file = '/../config/test/test.php';
 }
