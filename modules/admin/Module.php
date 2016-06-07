@@ -1,6 +1,7 @@
 <?php
 namespace app\modules\admin;
 
+use app\modules\setting\models\Setting;
 use Yii;
 use yii\base\Theme;
 
@@ -40,12 +41,15 @@ class Module extends \yii\base\Module
         Yii::configure($this, require(__DIR__ . '/config/main.php'));
 
         Yii::$app->name = $this->panelName;
-        Yii::$app->language = $this->language;
+        Yii::$app->language = Setting::getValue('languageAdminPanel') ?: $this->language;
 
-        $this->configUser();
-        $this->configTheme();
+        if (YII_WEB_APP) {
+            $this->configUser();
+            $this->configTheme();
+            $this->setMainPage();
+        }
+
         $this->configTranslations();
-        $this->setMainPage();
 
         parent::init();
     }

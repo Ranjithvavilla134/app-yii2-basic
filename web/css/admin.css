@@ -3,3 +3,9 @@
 .table .glyphicon {
     margin: 0 5px;
 }
+
+/*** Form ***/
+.form-horizontal .form-group {
+     margin-right: 0;
+     margin-left: 0;
+}

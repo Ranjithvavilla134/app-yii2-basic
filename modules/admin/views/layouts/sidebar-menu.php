@@ -81,27 +81,13 @@ echo Menu::widget(
                     ],
                 ]
             ],
-            /*[
+            [
                 'label' => '<span>' . Yii::t('admin', 'Settings') . '</span>',
-                'url' => '#',
+                'url' => ['/admin/setting'],
                 'icon' => 'fa-cogs',
-                'option' => 'treeview',
-                'visible' => Yii::$app->user->can('/admin/setting/index') || Yii::$app->user->can('/admin/sms-text/index'),
-                'items' => [
-                    [
-                        'label' => Yii::t('admin', 'Settings'),
-                        'url' => ['/admin/setting'],
-                        'active' => $controller->id === 'setting',
-                        'visible' => Yii::$app->user->can('/admin/setting/index'),
-                    ],
-                    [
-                        'label' => Yii::t('admin', 'SMS text'),
-                        'url' => ['/admin/sms-text'],
-                        'active' => $controller->id === 'sms-text',
-                        'visible' => Yii::$app->user->can('/admin/sms-text/index'),
-                    ]
-                ]
-            ],*/
+                'active' => $controller->id === 'setting',
+                'visible' => Yii::$app->user->can('/admin/setting/index') || Yii::$app->user->can('/admin/*'),
+            ],
             [
                 'label' => '<span>' . Yii::t('admin', 'Translations') . '</span>',
                 'url' => '#',

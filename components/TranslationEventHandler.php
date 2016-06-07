@@ -2,8 +2,10 @@
 
 namespace app\components;
 
+use app\models\Language;
 use app\models\SourceMessage;
 use app\models\Message;
+use yii\helpers\ArrayHelper;
 use yii\i18n\MissingTranslationEvent;
 use Yii;
 use yii\db\Query;
@@ -14,124 +16,105 @@ use yii\db\Query;
  */
 class TranslationEventHandler
 {
-	public static function handleMissingTranslation(MissingTranslationEvent $event)
-	{
-		if (self::checkNeeded($event->category))
-		{
-			$attributes = ['category' => $event->category, 'message' => $event->message];
+    public static $autoTranslate = false;
 
-			$query = (new Query())
-				->select('id, category, message')
-				->from(SourceMessage::tableName())
-				->where('category = :category AND BINARY message = :message');
+    public static function handleMissingTranslation(MissingTranslationEvent $event)
+    {
+        $allLanguage = ArrayHelper::map(Language::getAllActive(), 'varCode', 'varName');
 
-			$data = $query->createCommand()
-				->bindValue('category', $event->category)
-				->bindValue('message', $event->message)
-				->queryOne();
+        if (self::checkNeeded($event->category)) {
+            $attributes = ['category' => $event->category, 'message' => $event->message];
 
-			if (!$data )
-			{
-				$model = new SourceMessage();
-				$model->attributes = $attributes;
+            $query = (new Query())
+                ->select('id, category, message')
+                ->from(SourceMessage::tableName())
+                ->where('category = :category AND BINARY message = :message');
 
-				if ( $model->save() ) {
+            $data = $query->createCommand()
+                ->bindValue('category', $event->category)
+                ->bindValue('message', $event->message)
+                ->queryOne();
 
-					$attributes = ['id' => $model->id, 'language' => $event->language];
-					self::saveMessage($attributes, $event);
+            if (!$data) {
+                $model = new SourceMessage();
+                $model->attributes = $attributes;
 
-					if ($event->category === 'app')
-					{
-						foreach (Yii::$app->urlManager->languages as $language => $languageName)
-						{
-							$attributes = ['id' => $model->id, 'language' => $language];
-							self::saveMessage($attributes, $event);
-						}
-						/*$language = ($event->language === 'ru' ? 'kz' : 'ru');
-						$attributes = ['id' => $model->id, 'language' => $language];
-						self::saveMessage($attributes, $event);*/
-					}
-				}
-			}
-			else
-			{
-				/** @var Message $model */
-				if (($model = Message::find()->where('id=:id AND language=:language', [':id'=>$data['id'], ':language'=>$event->language])) === null)
-				{
-					$attributes = ['id' => $data['id'], 'language' => $event->language];
-					self::saveMessage($attributes, $event);
-				}
+                if ($model->save()) {
 
-				if ($event->category === 'app')
-				{
-					foreach (Yii::$app->urlManager->languages as $language => $languageName)
-					{
-						$attributes = ['id' => $data['id'], 'language' => $language];
-						self::saveMessage($attributes, $event);
-					}
+                    $attributes = ['id' => $model->id, 'language' => $event->language];
+                    self::saveMessage($attributes, $event);
 
-					/*$language = ($event->language === 'ru' ? 'kz' : 'ru');
+                    if ($event->category === 'app') {
+                        foreach ($allLanguage as $language => $languageName) {
+                            $attributes = ['id' => $model->id, 'language' => $language];
+                            self::saveMessage($attributes, $event);
+                        }
+                    }
+                }
+            } else {
+                /** @var Message $model */
+                if (($model = Message::find()->where('id=:id AND language=:language', [':id' => $data['id'], ':language' => $event->language])) === null) {
+                    $attributes = ['id' => $data['id'], 'language' => $event->language];
+                    self::saveMessage($attributes, $event);
+                }
 
-					if ( ($model = Message::find()->where('id=:id AND language=:language', [':id'=>$data['id'], ':language'=>$language])) === null)
-					{
-						$attributes = ['id' => $model->id, 'language' => $language];
-						self::saveMessage($attributes, $event);
-					}*/
-				}
-			}
+                if ($event->category === 'app') {
+                    foreach ($allLanguage as $language => $languageName) {
+                        $attributes = ['id' => $data['id'], 'language' => $language];
+                        self::saveMessage($attributes, $event);
+                    }
+                }
+            }
 
-			return $event;
-		}
+            return $event;
+        }
 
-	}
+    }
 
-	/**
-	 * @param $attributes
-	 * @param MissingTranslationEvent $event
-	 * @return bool
-	 */
-	protected static function saveMessage($attributes, MissingTranslationEvent $event)
-	{
-		/** @var Message $message */
-		$message = Message::findOne([
-			'language' => $attributes['language'],
-			'id' => $attributes['id']
-		]);
+    /**
+     * @param $attributes
+     * @param MissingTranslationEvent $event
+     * @return bool
+     */
+    protected static function saveMessage($attributes, MissingTranslationEvent $event)
+    {
+        /** @var Message $message */
+        $message = Message::findOne([
+            'language' => $attributes['language'],
+            'id'       => $attributes['id']
+        ]);
 
-		if (!$message)
-		{
-			$message = new Message();
-		}
+        if (!$message) {
+            $message = new Message();
+        }
 
-		$message->attributes = $attributes;
+        $message->attributes = $attributes;
 
-		if ($event->category === 'app' /*&& $event->language === 'en'*/ && $attributes['language'] === 'en')
-		{
-			$message->translation = $event->message;
-		}
+        if ($event->category === 'app' && $attributes['language'] === Language::getDefaultLanguage()->varCode) {
+            $message->translation = $event->message;
+        } elseif ($event->category === 'admin') {
+            $message->translation = self::$autoTranslate
+                ? (new ApiTranslation($message->language))->run($event->message)
+                : $event->message;
+        }
 
-		if ($event->category === 'admin')
-		{
-			$api = new ApiTranslation($message->language);
-			$message->translation = $api->run($event->message);
-		}
+        return $message->save();
+    }
 
-		return $message->save();
-	}
+    /**
+     * @param $category
+     * @return bool
+     */
+    protected static function checkNeeded($category)
+    {
+        $allLanguage = ArrayHelper::map(Language::getAllActive(), 'varCode', 'varName');
 
-	protected static function checkNeeded($category)
-	{
-		if ($category === 'admin' && Yii::$app->language === 'ru')
-		{
-			return true;
-		}
-		elseif ($category === 'app' && isset (Yii::$app->urlManager->languages) && in_array(Yii::$app->language, array_keys(Yii::$app->urlManager->languages), true))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+        if ($category === 'admin' && array_key_exists(Yii::$app->language, $allLanguage)) {
+            return true;
+        } elseif ($category === 'app' && array_key_exists(Yii::$app->language, $allLanguage)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -20,6 +20,7 @@ else
     $config_file = '/../config/prod/prod.php';
 }
 
+defined('YII_WEB_APP') or define('YII_WEB_APP', true);
 defined('YII_DEBUG') or define('YII_DEBUG', $debug);
 defined('YII_ENV') or define('YII_ENV', $environment);
 

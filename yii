@@ -8,6 +8,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
+defined('YII_WEB_APP') or define('YII_WEB_APP', false);
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 defined('YII_ENV') or define('YII_ENV', 'dev');
 

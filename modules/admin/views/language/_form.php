@@ -19,9 +19,9 @@ use yii\bootstrap\ActiveForm;
 
     <?= $form->field($model, 'varName')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'isDefault')->textInput() ?>
+    <?= $form->field($model, 'isDefault')->checkbox() ?>
 
-    <?= $form->field($model, 'isActive')->textInput() ?>
+    <?= $form->field($model, 'isActive')->checkbox() ?>
 
 
     <div class="col-sm-6 col-sm-offset-3">

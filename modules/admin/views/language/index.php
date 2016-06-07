@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use mistim\theme\adminlte\widgets\Box;
 use mistim\theme\adminlte\widgets\grid\ActionColumn;
 use yii\grid\GridView;
+use app\models\Language;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\LanguageSearch */
@@ -21,25 +22,65 @@ $gridConfig = [
         'intLanguageID',
         'varCode',
         'varName',
-        'isDefault',
-        'isActive',
+        [
+            'attribute' => 'isDefault',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return (
+                $data->isDefault === Language::STATUS_ACTIVE
+                    ? '<span class="glyphicon glyphicon-ok-circle text-green"></span>'
+                    : '<span class="glyphicon glyphicon-ban-circle text-red"></span>'
+                );
+            },
+            'filter' => [
+                Language::STATUS_ACTIVE => Yii::t('admin', 'enabled'),
+                Language::STATUS_INACTIVE => Yii::t('admin', 'disabled')
+            ],
+            'headerOptions' => [
+                'width' => '120px'
+            ],
+            'contentOptions' => [
+                'align' => 'center',
+            ]
+        ],
+        [
+            'attribute' => 'isActive',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return (
+                $data->isActive === Language::STATUS_ACTIVE
+                    ? '<span class="glyphicon glyphicon-ok-circle text-green"></span>'
+                    : '<span class="glyphicon glyphicon-ban-circle text-red"></span>'
+                );
+            },
+            'filter' => [
+                Language::STATUS_ACTIVE => Yii::t('admin', 'enabled'),
+                Language::STATUS_INACTIVE => Yii::t('admin', 'disabled')
+            ],
+            'headerOptions' => [
+                'width' => '120px'
+            ],
+            'contentOptions' => [
+                'align' => 'center',
+            ]
+        ],
     ],
 ];
 
-$showActions = true;
+$showActions = false;
 $actions = [];
 
-if (Yii::$app->user->can('/language/view')) {
+if (Yii::$app->user->can('/admin/language/view')) {
     $actions[] = '{view}';
     $showActions = $showActions || true;
 }
 
-if (Yii::$app->user->can('/language/update')) {
+if (Yii::$app->user->can('/admin/language/update')) {
     $actions[] = '{update}';
     $showActions = $showActions || true;
 }
 
-if (Yii::$app->user->can('/language/delete')) {
+if (Yii::$app->user->can('/admin/language/delete')) {
     $actions[] = '{delete}';
     $showActions = $showActions || true;
 }

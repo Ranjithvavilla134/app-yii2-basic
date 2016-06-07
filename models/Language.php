@@ -56,16 +56,45 @@ class Language extends \yii\db\ActiveRecord
     }
 
     /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     * @throws \Exception
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        $this->clearCache('all');
+        $this->clearCache('default');
+    }
+
+    /**
      * @return mixed|static[]
      */
     public static function getAllActive()
     {
-        $key = self::CACHE_KAY . 'all';
-        $data = Yii::$app->cache->get($key);
+        $keyCache = self::CACHE_KAY . 'all';
+        $data = Yii::$app->cache->get($keyCache);
 
         if (!$data) {
             $data = self::findAll(['isActive' => self::STATUS_ACTIVE]);
-            Yii::$app->cache->set($key, $data, self::CACHE_DURATION);
+            Yii::$app->cache->set($keyCache, $data, self::CACHE_DURATION);
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return mixed|null|static
+     */
+    public static function getDefaultLanguage()
+    {
+        $keyCache = self::CACHE_KAY . 'default';
+        $data = Yii::$app->cache->get($keyCache);
+
+        if (!$data) {
+            $data = self::findOne(['isActive' => self::STATUS_ACTIVE]);
+            Yii::$app->cache->set($keyCache, $data, self::CACHE_DURATION);
         }
 
         return $data;
@@ -76,11 +105,12 @@ class Language extends \yii\db\ActiveRecord
      * @return bool
      *
      * delete all: $subKey = "all"
+     * delete default: $subKey = "default"
      * delete one: $subKey = $model->getPrimaryKey
      */
     public static function clearCache($subKey)
     {
-        $key = self::CACHE_KAY . $subKey;
-        return Yii::$app->cache->delete($key);
+        $keyCache = self::CACHE_KAY . $subKey;
+        return Yii::$app->cache->delete($keyCache);
     }
 }
