@@ -71,8 +71,6 @@ if ($showActions === true) {
 }
 ?>
 
-<?php //Pjax::begin(['enablePushState' => false, 'timeout' => 10000]); ?>
-
 <div class="row">
     <div class="col-xs-12">
         <?php Box::begin(
@@ -87,5 +85,3 @@ if ($showActions === true) {
         <?php Box::end(); ?>
     </div>
 </div>
-
-<?php //Pjax::end(); ?>
