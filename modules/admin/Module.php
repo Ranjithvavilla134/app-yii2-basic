@@ -87,7 +87,6 @@ class Module extends \yii\base\Module
      */
     protected function configTranslations()
     {
-        Yii::$app->language = $this->language;
         Yii::$app->i18n->translations['admin*'] = [
             'class'                 => 'yii\i18n\DbMessageSource',
             'sourceLanguage'        => 'en-US',

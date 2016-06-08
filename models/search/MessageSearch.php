@@ -2,6 +2,7 @@
 
 namespace app\models\search;
 
+use app\modules\setting\models\Setting;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -82,7 +83,7 @@ class MessageSearch extends Message
             'source_message.category' => 'admin'
         ]);
 
-        $query->andFilterWhere(['like', 'language', $this->language])
+        $query->andFilterWhere(['like', 'language', Setting::getValue('languageAdminPanel')])
             ->andFilterWhere(['like', 'translation', $this->translation])
             ->andFilterWhere(['like', 'source_message.message', $this->getAttribute('sourceMessage.message')])
 			->andFilterWhere(['like', 'source_message.category',  $this->getAttribute('sourceMessage.category')]);

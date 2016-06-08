@@ -5,6 +5,7 @@ namespace app\components;
 use app\models\Language;
 use app\models\SourceMessage;
 use app\models\Message;
+use app\modules\setting\models\Setting;
 use yii\helpers\ArrayHelper;
 use yii\i18n\MissingTranslationEvent;
 use Yii;
@@ -21,6 +22,10 @@ class TranslationEventHandler
     public static function handleMissingTranslation(MissingTranslationEvent $event)
     {
         $allLanguage = ArrayHelper::map(Language::getAllActive(), 'varCode', 'varName');
+
+        if ($event->category === 'admin') {
+            Yii::$app->language = Setting::getValue('languageAdminPanel');
+        }
 
         if (self::checkNeeded($event->category)) {
             $attributes = ['category' => $event->category, 'message' => $event->message];
@@ -40,7 +45,6 @@ class TranslationEventHandler
                 $model->attributes = $attributes;
 
                 if ($model->save()) {
-
                     $attributes = ['id' => $model->id, 'language' => $event->language];
                     self::saveMessage($attributes, $event);
 
@@ -53,7 +57,7 @@ class TranslationEventHandler
                 }
             } else {
                 /** @var Message $model */
-                if (($model = Message::find()->where('id=:id AND language=:language', [':id' => $data['id'], ':language' => $event->language])) === null) {
+                if (($model = Message::findOne(['id' => $data['id'], 'language' => $event->language])) === null) {
                     $attributes = ['id' => $data['id'], 'language' => $event->language];
                     self::saveMessage($attributes, $event);
                 }
@@ -68,7 +72,6 @@ class TranslationEventHandler
 
             return $event;
         }
-
     }
 
     /**
@@ -109,7 +112,7 @@ class TranslationEventHandler
     {
         $allLanguage = ArrayHelper::map(Language::getAllActive(), 'varCode', 'varName');
 
-        if ($category === 'admin' && array_key_exists(Yii::$app->language, $allLanguage)) {
+        if ($category === 'admin' && array_key_exists(Setting::getValue('languageAdminPanel'), $allLanguage)) {
             return true;
         } elseif ($category === 'app' && array_key_exists(Yii::$app->language, $allLanguage)) {
             return true;
