@@ -37,12 +37,12 @@ $config = [
                 'app*' => [
                     'class'                 => 'yii\i18n\DbMessageSource',
                     'sourceLanguage'        => 'en-US',
-                    'on missingTranslation' => ['app\components\TranslationEventHandler', 'handleMissingTranslation']
+                    'on missingTranslation' => ['mistim\kernel\components\TranslationEventHandler', 'handleMissingTranslation']
                 ],
                 'admin*' => [
                     'class'                 => 'yii\i18n\DbMessageSource',
                     'sourceLanguage'        => 'en-US',
-                    'on missingTranslation' => ['app\components\TranslationEventHandler', 'handleMissingTranslation']
+                    'on missingTranslation' => ['mistim\kernel\components\TranslationEventHandler', 'handleMissingTranslation']
                 ]
             ],
         ],

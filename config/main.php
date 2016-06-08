@@ -6,15 +6,18 @@ $config = [
     'id' => 'basic',
     'language' => 'en',
     'sourceLanguage' => 'en_GB',
-    //'timeZone' => 'Europe/Kiev',
+    /*'timeZone' => 'Europe/Kiev',*/
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
         'log',
-        'app\modules\admin\Bootstrap',
+        'mistim\kernel\modules\admin\Bootstrap',
     ],
     'modules' => [
+        'site' => [
+            'class' => 'mistim\kernel\modules\site\Module',
+        ],
         'admin' => [
-            'class'          => 'app\modules\admin\Module',
+            'class'          => 'mistim\kernel\modules\admin\Module',
             'panelName'      => 'Admin Panel',
             'panelShortName' => 'AP',
             //'adminPath'      => 'admin-q7y'
@@ -52,7 +55,8 @@ $config = [
         'assetManager' => [
             'linkAssets'      => false,
             'appendTimestamp' => true,
-            //'bundles' => require(__DIR__ . '/assets/assets-dev.php'),
+            // for minify assets
+            /*'bundles' => require(__DIR__ . '/assets/assets-dev.php'),*/
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -82,8 +86,19 @@ $config = [
                 NumberFormatter::MAX_FRACTION_DIGITS => 0,
             ],
             // if not show "(not set)"
-            'nullDisplay' => '',
+            /*'nullDisplay' => '',*/
         ],
+        // if use theme for site
+        // http://www.yiiframework.com/doc-2.0/guide-output-theming.html
+        /*'view' => [
+            'theme' => [
+                'basePath' => '@app/themes/SET_THEME_NAME',
+                'baseUrl' => '@app/themes/SET_THEME_NAME',
+                'pathMap' => [
+                    '@app/views' => '@app/themes/SET_THEME_NAME',
+                ],
+            ],
+        ],*/
     ],
     'params' => $params,
 ];
