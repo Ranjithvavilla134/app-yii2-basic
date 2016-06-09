@@ -19,8 +19,9 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "bower-asset/bootbox": "~4.3.0",
-        "mistim/yii2-basic-kernel": "dev-master",
-        "mistim/yii2-theme-adminlte": "@dev"
+        "mistim/yii2-basic-kernel": "dev-master@dev",
+        "mistim/yii2-theme-adminlte": "dev-master@dev",
+        "mistim/yii2-basic-page": "dev-master@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

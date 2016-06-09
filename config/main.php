@@ -10,14 +10,14 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
         'log',
-        'mistim\kernel\modules\admin\Bootstrap',
+        'mistim\modules\admin\Bootstrap',
     ],
     'modules' => [
         'site' => [
-            'class' => 'mistim\kernel\modules\site\Module',
+            'class' => 'mistim\modules\site\Module',
         ],
         'admin' => [
-            'class'          => 'mistim\kernel\modules\admin\Module',
+            'class'          => 'mistim\modules\admin\Module',
             'panelName'      => 'Admin Panel',
             'panelShortName' => 'AP',
             //'adminPath'      => 'admin-q7y'
@@ -41,7 +41,7 @@ $config = [
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'site/main/error',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

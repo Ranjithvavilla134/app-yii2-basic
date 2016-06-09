@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b9c3f59e5da794406dffcab685b17604",
-    "content-hash": "8c5c4a6328c521ff0ebd882cd155b603",
+    "hash": "cdca9a3169633ab9ead4d27ba57a6549",
+    "content-hash": "c0e6b0a397db4691a132f7e41247c25d",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -424,12 +424,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mistim/yii2-basic-kernel.git",
-                "reference": "aeea72087b2f8b03a6607382e094bb1b1946cb96"
+                "reference": "a28d6c923d728c9e30dd0e969e2f06a86c034d94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mistim/yii2-basic-kernel/zipball/aeea72087b2f8b03a6607382e094bb1b1946cb96",
-                "reference": "aeea72087b2f8b03a6607382e094bb1b1946cb96",
+                "url": "https://api.github.com/repos/mistim/yii2-basic-kernel/zipball/a28d6c923d728c9e30dd0e969e2f06a86c034d94",
+                "reference": "a28d6c923d728c9e30dd0e969e2f06a86c034d94",
                 "shasum": ""
             },
             "require": {
@@ -440,7 +440,7 @@
             "type": "yii2-extension",
             "autoload": {
                 "psr-4": {
-                    "mistim\\kernel\\": ""
+                    "mistim\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -460,7 +460,50 @@
                 "kernel",
                 "yii2"
             ],
-            "time": "2016-06-08 11:23:52"
+            "time": "2016-06-08 13:13:13"
+        },
+        {
+            "name": "mistim/yii2-basic-page",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mistim/yii2-basic-page.git",
+                "reference": "003d311279a75e5df5a3130dfabd896dd56b568b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mistim/yii2-basic-page/zipball/003d311279a75e5df5a3130dfabd896dd56b568b",
+                "reference": "003d311279a75e5df5a3130dfabd896dd56b568b",
+                "shasum": ""
+            },
+            "require": {
+                "mistim/yii2-basic-kernel": "*",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "mistim\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-4-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Mistim",
+                    "email": "m.mistim@gmail.com"
+                }
+            ],
+            "description": "Page Module for Yii2 Framework",
+            "homepage": "https://github.com/mistim/yii2-basic-page",
+            "keywords": [
+                "page",
+                "yii2"
+            ],
+            "time": "2016-06-08 13:12:56"
         },
         {
             "name": "mistim/yii2-theme-adminlte",
@@ -1113,7 +1156,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "mistim/yii2-basic-kernel": 20,
-        "mistim/yii2-theme-adminlte": 20
+        "mistim/yii2-theme-adminlte": 20,
+        "mistim/yii2-basic-page": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
