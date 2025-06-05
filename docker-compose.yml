@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  yii2-app:
+    build: .
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - yii-net
+
+networks:
+  yii-net:
