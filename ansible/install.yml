@@ -1,0 +1,33 @@
+- name: Install and configure server
+  hosts: webserver
+  become: yes
+  tasks:
+    - name: Install packages
+      apt:
+        name: ['docker.io', 'nginx', 'git', 'php-fpm']
+        update_cache: yes
+
+    - name: Start and enable services
+      systemd:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+      loop:
+        - docker
+        - nginx
+
+    - name: Initialize Docker Swarm
+      shell: docker swarm init
+      ignore_errors: yes
+
+    - name: Configure NGINX reverse proxy
+      copy:
+        src: ./default
+        dest: /etc/nginx/sites-available/default
+      notify: Reload nginx
+
+  handlers:
+    - name: Reload nginx
+      service:
+        name: nginx
+        state: reloaded
